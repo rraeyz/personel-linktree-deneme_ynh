@@ -46,6 +46,7 @@ jwt_secret=$(ynh_string_random --length=32)
 cat > "$install_dir/.env" << EOF
 DATABASE_URL="file:$data_dir/prisma/dev.db"
 JWT_SECRET="$jwt_secret"
+ADMIN_USERNAME="admin"
 ADMIN_PASSWORD="$password"
 NEXT_PUBLIC_BASE_URL="https://$domain$path"
 PORT=$port
