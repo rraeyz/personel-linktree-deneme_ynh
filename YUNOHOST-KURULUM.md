@@ -15,7 +15,7 @@ git add .
 git commit -m "Initial commit"
 
 # GitHub'a push et
-git remote add origin https://github.com/KULLANICIADIN/personal-linktree.git
+git remote add origin https://github.com/rraeyz/personal-linktree_ynh.git
 git branch -M main
 git push -u origin main
 ```
@@ -40,7 +40,7 @@ nano manifest.toml
 **manifest.toml düzenlenmesi gereken satırlar:**
 ```toml
 [upstream]
-code = "https://github.com/KULLANICIADIN/personal-linktree"
+code = "https://github.com/rraeyz/personal-linktree_ynh"
 ```
 
 ### 3. sources.toml Oluştur
@@ -56,7 +56,7 @@ nano conf/sources.toml
 **conf/sources.toml içeriği:**
 ```toml
 [main]
-url = "https://github.com/KULLANICIADIN/personal-linktree/archive/refs/heads/main.tar.gz"
+url = "https://github.com/rraeyz/personal-linktree_ynh/archive/refs/heads/main.tar.gz"
 sha256 = "SHA256_HASH_BURAYA"
 format = "tar.gz"
 in_subdir = true
@@ -64,7 +64,7 @@ in_subdir = true
 
 SHA256 hash almak için:
 ```bash
-curl -sL "https://github.com/KULLANICIADIN/personal-linktree/archive/refs/heads/main.tar.gz" | sha256sum
+curl -sL "https://github.com/rraeyz/personal-linktree_ynh/archive/refs/heads/main.tar.gz" | sha256sum
 ```
 
 ### 4. Package'ı GitHub'a Yükle
@@ -74,7 +74,7 @@ cd ~/personal-linktree_ynh
 git init
 git add .
 git commit -m "Initial Yunohost package"
-git remote add origin https://github.com/KULLANICIADIN/personal-linktree_ynh.git
+git remote add origin https://github.com/rraeyz/personal-linktree_ynh_ynh.git
 git branch -M main
 git push -u origin main
 ```
@@ -94,7 +94,7 @@ git push -u origin main
 
 4. **GitHub URL'ini gir:**
    ```
-   https://github.com/KULLANICIADIN/personal-linktree_ynh
+   https://github.com/rraeyz/personal-linktree_ynh_ynh
    ```
 
 5. **Kurulum formunu doldur:**
@@ -119,7 +119,7 @@ ssh admin@your-yunohost-domain.com
 sudo -i
 
 # App'i kur
-yunohost app install https://github.com/KULLANICIADIN/personal-linktree_ynh
+yunohost app install https://github.com/rraeyz/personal-linktree_ynh_ynh
 
 # Soruları cevapla:
 # - Domain: linktree.yourdomain.com

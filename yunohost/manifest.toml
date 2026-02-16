@@ -13,8 +13,8 @@ maintainers = ["rraeyz"]
 
 [upstream]
 license = "MIT"
-code = "https://github.com/rraeyz/personal-linktree"
-admindoc = "https://github.com/rraeyz/personal-linktree/blob/main/README.md"
+code = "https://github.com/rraeyz/personal-linktree_ynh"
+admindoc = "https://github.com/rraeyz/personal-linktree_ynh/blob/main/README.md"
 
 [integration]
 yunohost = ">= 11.2"
