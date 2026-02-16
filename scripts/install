@@ -37,6 +37,9 @@ git clone git@github.com-personal-linktree:rraeyz/personal-linktree_ynh.git "$in
 # Git klasörünü temizle
 rm -rf "$install_dir/.git"
 
+# Prisma schema'yı data dizinine kopyala (volume için)
+cp "$install_dir/prisma/schema.prisma" "$data_dir/prisma/"
+
 # JWT Secret oluştur
 jwt_secret=$(ynh_string_random --length=32)
 password="changeme"  # Kullanıcı setup wizard'da değiştirecek
