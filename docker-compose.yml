@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: personal-linktree
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL:-file:/app/prisma/dev.db}
+      # These will be set via setup wizard on first run
+      # Or you can set them here before starting
+      - JWT_SECRET=${JWT_SECRET:-}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
+      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL:-http://localhost:3000}
+    volumes:
+      - db-data:/app/prisma
+      - uploads:/app/public/uploads
+      # Mount .env file if it exists (for manual configuration)
+      - ./.env:/app/.env:ro
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/profile"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - linktree-network
+
+volumes:
+  db-data:
+    driver: local
+  uploads:
+    driver: local
+
+networks:
+  linktree-network:
+    driver: bridge

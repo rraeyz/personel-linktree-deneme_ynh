@@ -1,0 +1,164 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id        Int      @id @default(1)
+  name      String   @default("Your Name")
+  bio       String   @default("Your bio goes here")
+  imageUrl  String   @default("/default-avatar.jpg")
+  
+  // SEO & Social Media
+  pageTitle       String @default("Personal Link Tree")
+  pageDescription String @default("Welcome to my link tree")
+  ogImageUrl      String @default("")
+  faviconUrl      String @default("") // Site favicon (browser tab icon)
+  
+  // Theme Settings
+  themePreset     String @default("purple-dream")
+  primaryColor    String @default("#a855f7")
+  accentColor     String @default("#ec4899")
+  backgroundColor String @default("#0a0a0a")
+  cardColor       String @default("#1a1a1a")
+  textColor       String @default("#ffffff")
+  buttonStyle     String @default("gradient") // gradient, solid, outline, glass
+  fontFamily      String @default("Inter")
+  borderRadius    String @default("xl") // sm, md, lg, xl, 2xl, full
+  animationSpeed  String @default("normal") // slow, normal, fast
+  
+  // Background Settings
+  backgroundType  String @default("gradient-blur") // solid, gradient-blur, particles, image, mesh-gradient
+  backgroundImage String @default("") // URL for custom background image
+  backgroundOpacity Int   @default(100) // 0-100
+  
+  // Contact Settings
+  contactEmail    String @default("")
+  contactPhone    String @default("")
+  contactAddress  String @default("")
+  
+  // Appearance Settings
+  darkMode        Boolean @default(true) // Dark/Light mode toggle
+  
+  // Verification & Badges
+  verified        Boolean @default(false)
+  badges          String  @default("") // JSON array of badge names
+  
+  // Analytics Settings
+  analyticsRetentionDays Int @default(90) // 0 = forever, >0 = days to keep
+  
+  // Email Settings (SMTP)
+  smtpHost        String @default("")
+  smtpPort        Int    @default(587)
+  smtpUser        String @default("")
+  smtpPassword    String @default("")
+  smtpFrom        String @default("")
+  smtpFromName    String @default("") // Gönderen adı (örn: "Rraeyz Destek Ekibi")
+  smtpSecure      Boolean @default(false) // true for 465, false for 587
+  
+  // Email Signature Settings
+  companyName     String @default("")
+  companyAddress  String @default("")
+  linkedinUrl     String @default("")
+  twitterUrl      String @default("")
+  discordUrl      String @default("")
+  youtubeUrl      String @default("")
+  instagramUrl    String @default("")
+  githubUrl       String @default("")
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Link {
+  id        Int      @id @default(autoincrement())
+  title     String
+  url       String
+  icon      String   @default("FaLink")
+  order     Int      @default(0)
+  enabled   Boolean  @default(true)
+  
+  // Link Type (normal link, contact form, donation, etc)
+  type      String   @default("link") // link, contact, donation, embed
+  
+  // Password Protection
+  password  String   @default("") // Empty = no password, bcrypt hash if protected
+  passwordHint String @default("") // Optional hint for users
+  
+  // Scheduling
+  startDate DateTime? // Link becomes active from this date
+  endDate   DateTime? // Link becomes inactive after this date
+  
+  // Short URL
+  slug      String   @default("") // Custom short slug for /go/slug
+  
+  // Analytics
+  clicks    Int      @default(0)
+  
+  // Categories
+  category  String   @default("")
+  
+  // Advanced Analytics
+  analytics Analytics[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+  @@index([category])
+  @@index([slug])
+}
+
+model Analytics {
+  id        Int      @id @default(autoincrement())
+  linkId    Int
+  link      Link     @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  
+  // Click Information
+  timestamp DateTime @default(now())
+  
+  // Device & Browser
+  userAgent String   @default("")
+  device    String   @default("") // mobile, desktop, tablet
+  browser   String   @default("") // chrome, firefox, safari, etc
+  os        String   @default("") // windows, macos, linux, android, ios
+  
+  // Location (GeoIP)
+  country   String   @default("")
+  city      String   @default("")
+  region    String   @default("")
+  
+  // Traffic Source
+  referrer  String   @default("") // Where the user came from
+  utmSource String   @default("") // UTM parameters
+  utmMedium String   @default("")
+  utmCampaign String @default("")
+  utmTerm   String   @default("")
+  utmContent String  @default("")
+  
+  // IP (hashed for privacy)
+  ipHash    String   @default("")
+
+  @@index([linkId])
+  @@index([timestamp])
+  @@index([country])
+}
+
+model Subscriber {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String   @default("")
+  createdAt DateTime @default(now())
+}
+
+model Admin {
+  id           Int      @id @default(1)
+  username     String   @unique @default("admin")
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
