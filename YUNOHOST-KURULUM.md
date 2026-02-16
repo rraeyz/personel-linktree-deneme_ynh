@@ -98,18 +98,20 @@ git push -u origin main
    ```
 
 5. **Kurulum formunu doldur:**
-   - **Domain**: Alt domain seç (örn: `linktree.yourdomain.com`)
-   - **Path**: `/` (veya `/linktree`)
-   - **Admin user**: Yunohost admin kullanıcın
-   - **Admin password**: Linktree panel şifresi (güçlü olmalı)
+   - **Domain**: Linktree'nizin çalışacağı domain (örn: example.com)
+   - **Path**: URL yolu (varsayılan: /linktree)
+   - **Public access**: Herkese açık mı olacak (varsayılan: Evet - Visitors)
 
-6. **"Install" butonuna bas**
+6. **Install butonuna tık**
 
-7. **Kurulum tamamlanınca:**
-   - Ana sayfa: `https://linktree.yourdomain.com`
-   - Admin panel: `https://linktree.yourdomain.com/admin/login`
+7. **Kurulum tamamlandıktan sonra:**
+   - Tarayıcınızda `https://your-domain.com/linktree/setup` adresine gidin
+   - Setup wizard ile admin hesabı oluşturun
+   - Profil bilgilerinizi ve bağlantılarınızı ekleyin
 
-### Yöntem 2: SSH ile Manuel
+### Yöntem 2: SSH ile Özel Repo Kurulumu (Özel/Private Repo için)
+
+Eğer repo'nuz private ise:
 
 ```bash
 # Sunucuya bağlan
@@ -118,15 +120,15 @@ ssh admin@your-yunohost-domain.com
 # Root'a geç
 sudo -i
 
-# App'i kur
-yunohost app install https://github.com/rraeyz/personal-linktree_ynh_ynh
+# SSH deploy key kullanarak kur
+yunohost app install git@github.com-personal-linktree:rraeyz/personal-linktree_ynh.git \
+  -a "domain=yourdomain.com&path=/linktree"
 
-# Soruları cevapla:
-# - Domain: linktree.yourdomain.com
-# - Path: /
-# - Admin user: admin
-# - Password: güçlü-şifre
+# Kurulum tamamlandıktan sonra setup wizard'a git:
+# https://yourdomain.com/linktree/setup
 ```
+
+**Not:** Bu yöntem, daha önce oluşturduğumuz SSH deploy key'i kullanır. Repository private olsa bile erişim sağlar.
 
 ---
 
