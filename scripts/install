@@ -37,6 +37,10 @@ git clone git@github.com-personal-linktree:rraeyz/personal-linktree_ynh.git "$in
 # Git klasörünü temizle
 rm -rf "$install_dir/.git"
 
+# JWT Secret oluştur
+jwt_secret=$(ynh_string_random --length=32)
+password="changeme"  # Kullanıcı setup wizard'da değiştirecek
+
 #=================================================
 # CREATE DOCKER COMPOSE FILE
 #=================================================
