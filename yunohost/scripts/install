@@ -39,21 +39,12 @@ ynh_setup_source --dest_dir="$install_dir"
 #=================================================
 ynh_script_progression --message="Configuring application..." --weight=2
 
-# JWT Secret oluştur
-jwt_secret=$(ynh_string_random --length=32)
+# Boş .env dosyası oluştur (Setup wizard dolduracak)
+touch "$data_dir/.env"
+chmod 600 "$data_dir/.env"
 
-# .env dosyası oluştur
-cat > "$install_dir/.env" << EOF
-DATABASE_URL="file:$data_dir/prisma/dev.db"
-JWT_SECRET="$jwt_secret"
-ADMIN_PASSWORD="$password"
-NEXT_PUBLIC_BASE_URL="https://$domain$path"
-PORT=$port
-NODE_ENV=production
-NEXT_TELEMETRY_DISABLED=1
-EOF
-
-chmod 600 "$install_dir/.env"
+# Prisma schema'yı data dizinine kopyala
+cp "$install_dir/prisma/schema.prisma" "$data_dir/prisma/"
 
 #=================================================
 # CREATE DOCKER COMPOSE FILE
