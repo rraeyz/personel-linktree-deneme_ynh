@@ -108,13 +108,13 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const { step, data } = await request.json()
+    const { step, data = {} } = await request.json()
 
     if (step === 'initial') {
       // .env dosyası oluştur
       const jwtSecret = crypto.randomBytes(32).toString('base64')
       const envContent = `# Database
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="file:./prisma/dev.db"
 
 # Security
 JWT_SECRET="${jwtSecret}"
@@ -132,7 +132,7 @@ NODE_ENV=production
 
       // Immediately load env vars into process.env
       // Note: NEXT_PUBLIC_* vars are replaced at build time, so we don't set them at runtime
-      process.env.DATABASE_URL = "file:./dev.db"
+      process.env.DATABASE_URL = "file:./prisma/dev.db"
       process.env.JWT_SECRET = jwtSecret
       process.env.ADMIN_USERNAME = data.adminUsername
       process.env.ADMIN_PASSWORD = data.adminPassword
@@ -161,25 +161,16 @@ NODE_ENV=production
       try {
         // Önce database tablolarını oluştur
         console.log('📦 Database tabloları oluşturuluyor...')
-        const dbUrl = process.env.DATABASE_URL || 'file:./dev.db'
+        const dbUrl = process.env.DATABASE_URL || 'file:./prisma/dev.db'
+        
         execSync(`npx prisma db push --url="${dbUrl}" --accept-data-loss`, { 
           cwd: process.cwd(),
           stdio: 'inherit'
         })
         console.log('✅ Database tabloları oluşturuldu')
 
-        // Prisma client'ı yeniden initialize et (DATABASE_URL yeni set edildi)
-        const { PrismaClient } = require('@prisma/client')
-        const newPrisma = new PrismaClient({
-          datasources: {
-            db: {
-              url: dbUrl
-            }
-          }
-        })
-
-        // Default profil oluştur
-        await newPrisma.profile.upsert({
+        // Mevcut global prisma instance'ını kullan
+        await prisma.profile.upsert({
           where: { id: 1 },
           update: {},
           create: {
@@ -204,9 +195,6 @@ NODE_ENV=production
             backgroundOpacity: 100,
           }
         })
-
-        // Bağlantıyı kapat
-        await newPrisma.$disconnect()
 
         return NextResponse.json({ 
           success: true, 
