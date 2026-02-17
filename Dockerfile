@@ -3,12 +3,13 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files (no package-lock.json, using .dockerignore)
+COPY package.json ./
 COPY prisma ./prisma/
 
 # Install dependencies with explicit Prisma version
-RUN npm install prisma@5.9.1 @prisma/client@5.9.1 && npm install
+RUN npm install --legacy-peer-deps prisma@5.9.1 @prisma/client@5.9.1 && \
+    npm install --legacy-peer-deps
 
 # Copy source code
 COPY . .
