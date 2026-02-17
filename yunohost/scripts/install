@@ -58,14 +58,12 @@ ynh_script_progression --message="Building and starting Docker container..." --w
 
 cd "$install_dir"
 
-# Docker Compose ile başlat
-docker-compose up -d --build
+# Docker Compose ile başlat (build + start)
+docker-compose build --no-cache
+docker-compose up -d
 
-# Container'ın başlamasını bekle
+# Container'ın başlamasını bekle (CMD'de prisma db push otomatik çalışacak)
 sleep 30
-
-# Database oluştur
-docker-compose exec -T app sh -c 'npx prisma db push --url="$DATABASE_URL" --accept-data-loss' || true
 
 #=================================================
 # CONFIGURE NGINX

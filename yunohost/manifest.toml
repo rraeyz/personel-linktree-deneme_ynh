@@ -44,16 +44,6 @@ ram.runtime = "512M"
     help.en = "Who can access the public linktree page"
     help.tr = "Herkese açık linktree sayfasına kimler erişebilir"
 
-    [install.admin]
-    type = "user"
-    help.en = "Choose an admin user (YunoHost user)"
-    help.tr = "Bir admin kullanıcı seçin (YunoHost kullanıcısı)"
-
-    [install.password]
-    type = "password"
-    help.en = "Admin password for the linktree panel"
-    help.tr = "Linktree paneli için admin şifresi"
-
 [resources]
     [resources.system_user]
     allow_email = true
