@@ -3,15 +3,12 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files (no package-lock.json, using .dockerignore)
+# Copy package files
 COPY package.json ./
 COPY prisma ./prisma/
 
-# Install ONLY the exact versions we want
-RUN npm install --legacy-peer-deps --no-package-lock \
-    prisma@5.9.1 \
-    @prisma/client@5.9.1 \
-    && npm install --legacy-peer-deps --no-package-lock
+# Install dependencies (Prisma 7 will be used)
+RUN npm install --legacy-peer-deps
 
 # Copy source code
 COPY . .
@@ -59,4 +56,4 @@ EXPOSE 3000
 ENTRYPOINT ["dumb-init", "--"]
 
 # Initialize database on first run, then start server
-CMD ["sh", "-c", "npx prisma db push --accept-data-loss && node server.js"]
+CMD ["sh", "-c", "npx prisma db push --url=\"${DATABASE_URL}\" --accept-data-loss && node server.js"]

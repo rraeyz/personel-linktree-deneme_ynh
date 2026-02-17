@@ -59,7 +59,8 @@ export async function GET() {
       if (error?.code === 'P2021' || error?.message?.includes('does not exist')) {
         try {
           console.log('📦 Database tabloları oluşturuluyor...')
-          execSync('npx prisma db push --skip-generate --accept-data-loss', { 
+          const dbUrl = process.env.DATABASE_URL || 'file:./dev.db'
+          execSync(`npx prisma db push --url="${dbUrl}" --accept-data-loss`, { 
             cwd: process.cwd(),
             stdio: 'inherit'
           })
@@ -161,10 +162,9 @@ NODE_ENV=production
         // Önce database tablolarını oluştur
         console.log('📦 Database tabloları oluşturuluyor...')
         const dbUrl = process.env.DATABASE_URL || 'file:./dev.db'
-        execSync('npx prisma db push --skip-generate --accept-data-loss', { 
+        execSync(`npx prisma db push --url="${dbUrl}" --accept-data-loss`, { 
           cwd: process.cwd(),
-          stdio: 'inherit',
-          env: { ...process.env, DATABASE_URL: dbUrl }
+          stdio: 'inherit'
         })
         console.log('✅ Database tabloları oluşturuldu')
 

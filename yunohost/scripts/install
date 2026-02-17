@@ -74,7 +74,7 @@ docker-compose up -d --build
 sleep 30
 
 # Database oluştur
-docker-compose exec -T app npx prisma db push --accept-data-loss || true
+docker-compose exec -T app sh -c 'npx prisma db push --url="$DATABASE_URL" --accept-data-loss' || true
 
 #=================================================
 # CONFIGURE NGINX
