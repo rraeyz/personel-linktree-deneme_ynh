@@ -7,9 +7,11 @@ WORKDIR /app
 COPY package.json ./
 COPY prisma ./prisma/
 
-# Install dependencies with explicit Prisma version
-RUN npm install --legacy-peer-deps prisma@5.9.1 @prisma/client@5.9.1 && \
-    npm install --legacy-peer-deps
+# Install ONLY the exact versions we want
+RUN npm install --legacy-peer-deps --no-package-lock \
+    prisma@5.9.1 \
+    @prisma/client@5.9.1 \
+    && npm install --legacy-peer-deps --no-package-lock
 
 # Copy source code
 COPY . .
