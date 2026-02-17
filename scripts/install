@@ -56,8 +56,9 @@ ynh_script_progression --message="Building and starting Docker container..." --w
 
 cd "$install_dir"
 
-# Docker Compose ile başlat
-docker-compose up -d --build
+# Docker Compose ile başlat (--no-cache ile temiz build)
+docker-compose build --no-cache
+docker-compose up -d
 
 # Container'ın başlamasını bekle
 sleep 30

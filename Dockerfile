@@ -7,8 +7,8 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Install dependencies
-RUN npm install
+# Install dependencies with explicit Prisma version
+RUN npm install prisma@5.9.1 @prisma/client@5.9.1 && npm install
 
 # Copy source code
 COPY . .
