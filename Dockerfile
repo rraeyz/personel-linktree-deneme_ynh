@@ -6,6 +6,7 @@ WORKDIR /app
 # Copy package files
 COPY package.json ./
 COPY prisma ./prisma/
+COPY prisma.config.ts ./
 
 # Install dependencies (Prisma 7 will be used)
 RUN npm install --legacy-peer-deps
@@ -13,7 +14,7 @@ RUN npm install --legacy-peer-deps
 # Copy source code
 COPY . .
 
-# Generate Prisma Client
+# Generate Prisma Client (requires prisma.config.ts)
 RUN npx prisma generate
 
 # Build Next.js with standalone output
