@@ -20,7 +20,7 @@ export async function GET() {
 
     // Admin şifresi ayarlanmış mı kontrol et
     const adminPassword = process.env.ADMIN_PASSWORD
-    if (!adminPassword || adminPassword === 'admin123' || adminPassword === 'change-this-password' || adminPassword === 'auto-generated-on-first-setup') {
+    if (!adminPassword || adminPassword === 'admin123' || adminPassword === 'change-this-password' || adminPassword === 'auto-generated-on-first-setup' || adminPassword === 'SETUP_REQUIRED') {
       // .env var ama şifre belirlenmemiş - tekrar initial'a dön
       return NextResponse.json({ setupRequired: true, step: 'initial' })
     }

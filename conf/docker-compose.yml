@@ -12,12 +12,13 @@ services:
     environment:
       - NODE_ENV=production
       - DATABASE_URL=file:/app/prisma/dev.db
-      - JWT_SECRET=__JWT_SECRET__
-      - ADMIN_PASSWORD=__PASSWORD__
+      - JWT_SECRET=SETUP_REQUIRED
+      - ADMIN_PASSWORD=SETUP_REQUIRED
       - NEXT_PUBLIC_BASE_URL=https://__DOMAIN____PATH__
     volumes:
       - __DATA_DIR__/prisma:/app/prisma
       - __DATA_DIR__/uploads:/app/public/uploads
+      - __DATA_DIR__/.env:/app/.env
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/profile"]
       interval: 30s

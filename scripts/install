@@ -40,9 +40,9 @@ rm -rf "$install_dir/.git"
 # Prisma schema'yı data dizinine kopyala (volume için)
 cp "$install_dir/prisma/schema.prisma" "$data_dir/prisma/"
 
-# JWT Secret oluştur
-jwt_secret=$(ynh_string_random --length=32)
-password="changeme"  # Kullanıcı setup wizard'da değiştirecek
+# Boş .env dosyası oluştur (Setup wizard dolduracak)
+touch "$data_dir/.env"
+chmod 600 "$data_dir/.env"
 
 #=================================================
 # CREATE DOCKER COMPOSE FILE
