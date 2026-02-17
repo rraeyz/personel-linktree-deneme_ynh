@@ -3,6 +3,9 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Install build dependencies for native modules (better-sqlite3)
+RUN apk add --no-cache python3 make g++
+
 # Copy package files
 COPY package.json ./
 COPY prisma ./prisma/
@@ -31,7 +34,7 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Install dumb-init for proper signal handling
+# Install runtime dependencies (dumb-init + better-sqlite3 runtime deps)
 RUN apk add --no-cache dumb-init
 
 # Create a non-root user
