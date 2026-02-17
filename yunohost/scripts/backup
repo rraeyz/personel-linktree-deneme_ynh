@@ -7,7 +7,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression --message="Backing up configuration..." --weight=2
 
-ynh_backup --src_path="$install_dir/.env"
+ynh_backup --src_path="$data_dir/.env"
 ynh_backup --src_path="$install_dir/docker-compose.yml"
 
 #=================================================
