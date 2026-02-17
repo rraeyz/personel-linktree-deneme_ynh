@@ -17,7 +17,8 @@ RUN npm install --legacy-peer-deps
 # Copy source code
 COPY . .
 
-# Generate Prisma Client (requires prisma.config.ts)
+# Generate Prisma Client (requires prisma.config.ts and DATABASE_URL)
+ENV DATABASE_URL="file:./prisma/dev.db"
 RUN npx prisma generate
 
 # Build Next.js with standalone output
