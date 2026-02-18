@@ -63,6 +63,10 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules/nodemailer ./node_mo
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/geoip-lite ./node_modules/geoip-lite
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/ua-parser-js ./node_modules/ua-parser-js
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/qrcode.react ./node_modules/qrcode.react
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/framer-motion ./node_modules/framer-motion
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/recharts ./node_modules/recharts
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@dnd-kit ./node_modules/@dnd-kit
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/react-icons ./node_modules/react-icons
 
 # Create directories with proper permissions
 RUN mkdir -p /app/prisma /app/public/uploads && \
