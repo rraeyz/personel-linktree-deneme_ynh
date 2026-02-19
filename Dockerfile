@@ -3,8 +3,8 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Native modüller için build bağımlılıkları (better-sqlite3)
-RUN apk add --no-cache python3 make g++
+# Native modüller için build bağımlılıkları (better-sqlite3, sharp)
+RUN apk add --no-cache python3 make g++ vips-dev
 
 # Package dosyalarını kopyala
 COPY package.json ./
@@ -39,7 +39,7 @@ ENV HOSTNAME="0.0.0.0"
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # dumb-init: signal handling için
-RUN apk add --no-cache dumb-init
+RUN apk add --no-cache dumb-init vips
 
 # Next.js standalone dosyalarını kopyala
 COPY --from=builder /app/public ./public
@@ -57,6 +57,9 @@ COPY --from=builder /app/template.db ./template.db
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 # better-sqlite3 native binary - ARM64 için builder'da derlendi
 COPY --from=builder /app/node_modules/better-sqlite3 ./node_modules/better-sqlite3
+# sharp - goruntu optimizasyonu için
+COPY --from=builder /app/node_modules/sharp ./node_modules/sharp
+COPY --from=builder /app/node_modules/@img ./node_modules/@img
 COPY --from=builder /app/node_modules/bcryptjs ./node_modules/bcryptjs
 COPY --from=builder /app/node_modules/jsonwebtoken ./node_modules/jsonwebtoken
 COPY --from=builder /app/node_modules/nodemailer ./node_modules/nodemailer

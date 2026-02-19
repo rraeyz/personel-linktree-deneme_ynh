@@ -22,6 +22,7 @@ const nextConfig = {
       'nodemailer',
       'geoip-lite',
       'ua-parser-js',
+      'sharp',
     ],
     outputFileTracingIncludes: {
       '/': [
