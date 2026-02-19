@@ -79,5 +79,5 @@ EXPOSE 3000
 # Use dumb-init to handle signals properly
 ENTRYPOINT ["dumb-init", "--"]
 
-# Initialize database on first run (uses DATABASE_URL from env), then start server
-CMD ["sh", "-c", "npx prisma db push --accept-data-loss && node server.js"]
+# Start server (database will be created by setup wizard)
+CMD ["node", "server.js"]
