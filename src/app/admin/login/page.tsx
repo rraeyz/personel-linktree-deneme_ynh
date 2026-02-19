@@ -3,12 +3,6 @@ import { isAuthenticated } from '@/lib/auth'
 import LoginForm from '@/components/admin/LoginForm'
 
 export default async function AdminLoginPage() {
-  // Admin şifresi ayarlanmış mı kontrol et
-  const adminPassword = process.env.ADMIN_PASSWORD
-  if (!adminPassword || adminPassword === 'admin123' || adminPassword === 'change-this-password' || adminPassword === 'SETUP_REQUIRED' || adminPassword === 'auto-generated-on-first-setup') {
-    redirect('/setup')
-  }
-
   const authenticated = await isAuthenticated()
   
   if (authenticated) {

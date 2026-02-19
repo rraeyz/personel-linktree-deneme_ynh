@@ -8,23 +8,12 @@ export const dynamic = 'force-dynamic'
 
 export async function GET() {
   try {
-    // Admin şifresi ayarlanmış mı kontrol et
     const adminPassword = process.env.ADMIN_PASSWORD
     if (!adminPassword || adminPassword === 'admin123' || adminPassword === 'change-this-password' || adminPassword === 'auto-generated-on-first-setup' || adminPassword === 'SETUP_REQUIRED') {
       return NextResponse.json({ setupRequired: true, step: 'initial' })
     }
-
-    // Database kontrol et
-    try {
-      await prisma.profile.findFirst()
-    } catch (error: any) {
-      console.error('Database erişim hatası:', error)
-      return NextResponse.json({ setupRequired: true, step: 'initial' })
-    }
-
     return NextResponse.json({ setupRequired: false })
   } catch (error) {
-    console.error('Setup check error:', error)
     return NextResponse.json({ setupRequired: true, step: 'initial' })
   }
 }
