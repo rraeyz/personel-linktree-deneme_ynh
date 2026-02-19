@@ -23,13 +23,11 @@ ynh_setup_source --dest_dir="$install_dir" --keep=".env docker-compose.yml"
 ynh_script_progression --message="Rebuilding Docker container..." --weight=10
 
 cd "$install_dir"
-docker-compose up -d --build
+docker-compose build --no-cache
+docker-compose up -d
 
-# Container'ın başlamasını bekle
-sleep 30
-
-# Database migration (gerekirse)
-docker-compose exec -T app npx prisma db push || true
+# Container'in başlamasını bekle
+sleep 15
 
 #=================================================
 # UPDATE NGINX CONFIGURATION
