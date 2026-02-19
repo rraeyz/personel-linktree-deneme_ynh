@@ -7,23 +7,13 @@ import ActionButtons from '@/components/ActionButtons'
 import SocialEmbed from '@/components/SocialEmbed'
 import ThemeToggle from '@/components/ThemeToggle'
 import { redirect } from 'next/navigation'
-import fs from 'fs'
-import path from 'path'
 
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {
-  // Check if setup is required
-  const envPath = path.join(process.cwd(), '.env')
-  const envExists = fs.existsSync(envPath)
-  
-  if (!envExists) {
-    redirect('/setup')
-  }
-
-  // Check if admin password is set
+  // Admin şifresi ayarlanmış mı kontrol et
   const adminPassword = process.env.ADMIN_PASSWORD
-  if (!adminPassword || adminPassword === 'admin123' || adminPassword === 'change-this-password') {
+  if (!adminPassword || adminPassword === 'admin123' || adminPassword === 'change-this-password' || adminPassword === 'SETUP_REQUIRED' || adminPassword === 'auto-generated-on-first-setup') {
     redirect('/setup')
   }
 

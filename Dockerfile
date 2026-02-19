@@ -53,13 +53,10 @@ COPY --from=builder /app/generated ./generated
 COPY --from=builder /app/template.db ./template.db
 
 # Runtime bağımlılıkları (standalone build için)
-# @prisma klasoruı zaten adapter-better-sqlite3 ve driver-adapter-utils içeriyor
+# @prisma klasörü adapter-better-sqlite3 ve driver-adapter-utils içeriyor
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 # better-sqlite3 native binary - ARM64 için builder'da derlendi
 COPY --from=builder /app/node_modules/better-sqlite3 ./node_modules/better-sqlite3
-# standalone içindeki @prisma klasoruınu da override et (binary doğru yerde olsun)
-COPY --from=builder /app/node_modules/better-sqlite3 ./.next/standalone/node_modules/better-sqlite3
-COPY --from=builder /app/node_modules/@prisma ./.next/standalone/node_modules/@prisma
 COPY --from=builder /app/node_modules/bcryptjs ./node_modules/bcryptjs
 COPY --from=builder /app/node_modules/jsonwebtoken ./node_modules/jsonwebtoken
 COPY --from=builder /app/node_modules/nodemailer ./node_modules/nodemailer

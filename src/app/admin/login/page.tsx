@@ -1,21 +1,11 @@
 import { redirect } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import LoginForm from '@/components/admin/LoginForm'
-import fs from 'fs'
-import path from 'path'
 
 export default async function AdminLoginPage() {
-  // Check if setup is required
-  const envPath = path.join(process.cwd(), '.env')
-  const envExists = fs.existsSync(envPath)
-  
-  if (!envExists) {
-    redirect('/setup')
-  }
-
-  // Check if admin password is set
+  // Admin şifresi ayarlanmış mı kontrol et
   const adminPassword = process.env.ADMIN_PASSWORD
-  if (!adminPassword || adminPassword === 'admin123' || adminPassword === 'change-this-password' || adminPassword === 'auto-generated-on-first-setup') {
+  if (!adminPassword || adminPassword === 'admin123' || adminPassword === 'change-this-password' || adminPassword === 'SETUP_REQUIRED' || adminPassword === 'auto-generated-on-first-setup') {
     redirect('/setup')
   }
 
