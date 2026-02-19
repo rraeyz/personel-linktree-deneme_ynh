@@ -17,13 +17,10 @@ RUN npm install --legacy-peer-deps
 # Kaynak kodları kopyala
 COPY . .
 
-# Prisma Client oluştur
+# Prisma Client oluştur + template database (Prisma 7: --skip-generate yok)
 ENV DATABASE_URL="file:/app/prisma/dev.db"
-RUN npx prisma generate
-
-# Build aşamasında template database oluştur (tüm tablolarla)
-# Bu, production container'da CLI gerektirmeden çalışır
-RUN npx prisma db push --skip-generate && \
+RUN npx prisma generate && \
+    npx prisma db push && \
     cp /app/prisma/dev.db /app/template.db && \
     rm /app/prisma/dev.db
 
