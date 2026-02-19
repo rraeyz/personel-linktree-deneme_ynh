@@ -3,25 +3,31 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install build dependencies for native modules (better-sqlite3)
+# Native modüller için build bağımlılıkları (better-sqlite3)
 RUN apk add --no-cache python3 make g++
 
-# Copy package files
+# Package dosyalarını kopyala
 COPY package.json ./
 COPY prisma ./prisma/
 COPY prisma.config.ts ./
 
-# Install dependencies (Prisma 7 will be used)
+# Bağımlılıkları yükle
 RUN npm install --legacy-peer-deps
 
-# Copy source code
+# Kaynak kodları kopyala
 COPY . .
 
-# Generate Prisma Client (requires prisma.config.ts and DATABASE_URL)
-ENV DATABASE_URL="file:./prisma/dev.db"
+# Prisma Client oluştur
+ENV DATABASE_URL="file:/app/prisma/dev.db"
 RUN npx prisma generate
 
-# Build Next.js with standalone output
+# Build aşamasında template database oluştur (tüm tablolarla)
+# Bu, production container'da CLI gerektirmeden çalışır
+RUN npx prisma db push --skip-generate && \
+    cp /app/prisma/dev.db /app/template.db && \
+    rm /app/prisma/dev.db
+
+# Next.js standalone build
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
@@ -35,49 +41,45 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Install runtime dependencies (dumb-init + better-sqlite3 runtime deps)
+# dumb-init: signal handling için
 RUN apk add --no-cache dumb-init
 
-# Create a non-root user
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+# Next.js standalone dosyalarını kopyala
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
-# Copy necessary files from builder
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
-COPY --from=builder --chown=nextjs:nodejs /app/generated ./generated
-COPY --from=builder --chown=nextjs:nodejs /app/prisma.config.ts ./prisma.config.ts
+# Prisma generated client
+COPY --from=builder /app/generated ./generated
 
-# Copy Prisma CLI and dependencies
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.bin ./node_modules/.bin
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/better-sqlite3 ./node_modules/better-sqlite3
+# Template database (ilk kurulumda kopyalanacak)
+COPY --from=builder /app/template.db ./template.db
 
-# Copy runtime dependencies (for standalone build)
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/bcryptjs ./node_modules/bcryptjs
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/jsonwebtoken ./node_modules/jsonwebtoken
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/nodemailer ./node_modules/nodemailer
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/geoip-lite ./node_modules/geoip-lite
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/ua-parser-js ./node_modules/ua-parser-js
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/qrcode.react ./node_modules/qrcode.react
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/framer-motion ./node_modules/framer-motion
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/recharts ./node_modules/recharts
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@dnd-kit ./node_modules/@dnd-kit
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/react-icons ./node_modules/react-icons
+# Runtime bağımlılıkları (standalone build için)
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=builder /app/node_modules/better-sqlite3 ./node_modules/better-sqlite3
+COPY --from=builder /app/node_modules/bcryptjs ./node_modules/bcryptjs
+COPY --from=builder /app/node_modules/jsonwebtoken ./node_modules/jsonwebtoken
+COPY --from=builder /app/node_modules/nodemailer ./node_modules/nodemailer
+COPY --from=builder /app/node_modules/geoip-lite ./node_modules/geoip-lite
+COPY --from=builder /app/node_modules/ua-parser-js ./node_modules/ua-parser-js
+COPY --from=builder /app/node_modules/qrcode.react ./node_modules/qrcode.react
+COPY --from=builder /app/node_modules/framer-motion ./node_modules/framer-motion
+COPY --from=builder /app/node_modules/recharts ./node_modules/recharts
+COPY --from=builder /app/node_modules/@dnd-kit ./node_modules/@dnd-kit
+COPY --from=builder /app/node_modules/react-icons ./node_modules/react-icons
 
-# Create directories with proper permissions
-RUN mkdir -p /app/prisma /app/public/uploads && \
-    chown -R nextjs:nodejs /app/prisma /app/public/uploads
+# Entrypoint script (database başlatma + server)
+COPY docker-entrypoint.sh ./docker-entrypoint.sh
+RUN chmod +x ./docker-entrypoint.sh
 
-USER nextjs
+# Dizinleri oluştur
+RUN mkdir -p /app/prisma /app/public/uploads
 
 EXPOSE 3000
 
-# Use dumb-init to handle signals properly
+# dumb-init ile signal handling
 ENTRYPOINT ["dumb-init", "--"]
 
-# Start server (database will be created by setup wizard)
-CMD ["node", "server.js"]
+# Entrypoint: database kopyala (yoksa) ve server başlat
+CMD ["/app/docker-entrypoint.sh"]

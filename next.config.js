@@ -12,6 +12,7 @@ const nextConfig = {
   experimental: {
     outputFileTracingIncludes: {
       '/': [
+        './generated/**/*',
         './node_modules/bcryptjs/**/*',
         './node_modules/jsonwebtoken/**/*',
         './node_modules/nodemailer/**/*',
@@ -22,7 +23,6 @@ const nextConfig = {
         './node_modules/recharts/**/*',
         './node_modules/@dnd-kit/**/*',
         './node_modules/react-icons/**/*',
-        './node_modules/prisma/**/*',
         './node_modules/@prisma/**/*',
         './node_modules/better-sqlite3/**/*',
       ],

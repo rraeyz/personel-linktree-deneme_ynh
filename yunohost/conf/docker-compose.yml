@@ -9,11 +9,11 @@ services:
     restart: unless-stopped
     ports:
       - "__PORT__:3000"
+    env_file:
+      - __DATA_DIR__/.env
     environment:
       - NODE_ENV=production
       - DATABASE_URL=file:/app/prisma/dev.db
-      - JWT_SECRET=SETUP_REQUIRED
-      - ADMIN_PASSWORD=SETUP_REQUIRED
       - NEXT_PUBLIC_BASE_URL=https://__DOMAIN____PATH__
     volumes:
       - __DATA_DIR__/prisma:/app/prisma
