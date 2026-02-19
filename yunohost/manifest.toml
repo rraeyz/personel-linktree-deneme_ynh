@@ -56,8 +56,6 @@ ram.runtime = "512M"
 
     [resources.permissions]
     main.url = "/"
-    admin.url = "/admin"
-    admin.allowed = "admins"
 
     [resources.ports]
     main.default = 3000
