@@ -26,7 +26,10 @@ fi
 #=================================================
 ynh_script_progression --message="Backing up data directory..." --weight=3
 
-ynh_backup --src_path="$data_dir"
+# uploads klasörünü yedekle (.env ve database zaten üstte yedeklendi)
+if [ -d "$data_dir/uploads" ]; then
+    ynh_backup --src_path="$data_dir/uploads" --dest_path="uploads"
+fi
 
 #=================================================
 # BACKUP THE NGINX CONFIGURATION
