@@ -9,7 +9,20 @@ const nextConfig = {
       },
     ],
   },
+  // Native modülleri webpack bundle'ına ALMA, runtime'da node_modules'dan yükle
+  // better-sqlite3 .node binary'si bundle'lanamaz
   experimental: {
+    serverComponentsExternalPackages: [
+      'better-sqlite3',
+      '@prisma/client',
+      '@prisma/adapter-better-sqlite3',
+      '@prisma/driver-adapter-utils',
+      'bcryptjs',
+      'jsonwebtoken',
+      'nodemailer',
+      'geoip-lite',
+      'ua-parser-js',
+    ],
     outputFileTracingIncludes: {
       '/': [
         './generated/**/*',
