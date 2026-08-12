@@ -91,7 +91,7 @@ export default function SocialEmbed({ url, type, title }: SocialEmbedProps) {
     >
       <div className="flex items-center gap-2 mb-3">
         <Icon className="w-5 h-5 text-dynamic-primary" />
-        <h3 className="text-white font-semibold">{title}</h3>
+        <h3 className="text-dynamic-text font-semibold">{title}</h3>
       </div>
 
       {loading ? (

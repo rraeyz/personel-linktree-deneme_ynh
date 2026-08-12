@@ -113,7 +113,7 @@ export default async function Home() {
                     {category !== 'Diğer' && linksByCategory[category].length > 0 && (
                       <div className="flex items-center gap-3 mt-8 first:mt-0">
                         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-current to-transparent text-dynamic-primary opacity-30" />
-                        <h3 className="text-sm font-medium text-dynamic-primary opacity-80 uppercase tracking-wider">
+                        <h3 className="text-sm font-medium text-dynamic-text opacity-70 uppercase tracking-wider">
                           {category}
                         </h3>
                         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-current to-transparent text-dynamic-primary opacity-30" />

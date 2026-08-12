@@ -57,7 +57,7 @@ export default function ContactForm({ contactEmail, onClose }: ContactFormProps)
       >
         <div className="p-6 bg-dynamic-card rounded-xl border border-gray-800 mt-4">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-white">Bana Ulaşın</h3>
+            <h3 className="text-lg font-semibold text-dynamic-text">Bana Ulaşın</h3>
             <button
               onClick={onClose}
               className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
