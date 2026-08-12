@@ -30,9 +30,9 @@ mkdir -p "$install_dir"
 mkdir -p "$data_dir/prisma"
 mkdir -p "$data_dir/uploads"
 
-# Kaynak dosyaları GitHub'dan çek (SSH ile)
+# Kaynak dosyaları GitHub'dan çek (deneme reposu, HTTPS ile)
 ynh_script_progression --message="Cloning from GitHub..." --weight=2
-git clone git@github.com-personal-linktree:rraeyz/personal-linktree_ynh.git "$install_dir"
+git clone https://github.com/rraeyz/personel-linktree-deneme_ynh.git "$install_dir"
 
 # Git klasörünü temizle
 rm -rf "$install_dir/.git"
