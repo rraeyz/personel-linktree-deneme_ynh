@@ -21,7 +21,7 @@ services:
       - db-data:/app/prisma
       - uploads:/app/public/uploads
       # Mount .env file if it exists (for manual configuration)
-      - ./.env:/app/.env:ro
+      - ./.env:/app/.env
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/profile"]
       interval: 30s

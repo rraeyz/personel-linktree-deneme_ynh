@@ -45,7 +45,7 @@ export default function DynamicBackground({
         />
         <div 
           className="absolute inset-0"
-          style={{ backgroundColor: `${backgroundColor}80` }}
+          style={{ backgroundColor: 'var(--color-background)', opacity: 0.5 }}
         />
       </div>
     )
