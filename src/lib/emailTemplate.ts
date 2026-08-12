@@ -1,5 +1,6 @@
 // Email Template Generator - Profesyonel HTML Email Şablonu
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || '';
 interface SocialLink {
   platform: string;
   url: string;
@@ -37,14 +38,14 @@ export function generateEmailHTML(options: EmailTemplateOptions): string {
     viewInBrowserUrl,
   } = options;
 
-  // Sosyal medya linklerini filtrele ve formatla (Gmail uyumlu Base64 PNG)
+  // Sosyal medya linklerini filtrele ve formatla (Base64 embedded SVG)
   const activeSocialLinks: SocialLink[] = [];
   
   if (socialLinks.linkedin) {
     activeSocialLinks.push({
       platform: 'LinkedIn',
       url: socialLinks.linkedin,
-      icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAACNElEQVRoge2au2sVQRSHvzMxoiAmmqAp7OwkjYJtNJVRfJQRrcVGwcJC8A+wEMRCrKztRUSCD0yQEKIi8YHYGUTEVDbC9fr4yeBekOvd2U3Qe89Ev2JZ9pwznN/OzsyZYQGQdFDSvKSG/NOQNCdpf8zdJB0GbpAnh6KAJ8Au8uRxFNAE+smTZhQgMiaQOWtq+j0CXgFbgD3AerygNB8k7W3zH5F0V06weCnTBoyZ2cMOogeB58A2HI+BmU7JR8zsI3ABB4SELb7hFAs4FzBYEbsJ5wImJG1I2I/jXMAwcFVSX7tB0iRwFAdYYhZqMQtcAl4CW4vETwC/CesFVkOAawL/SCnxp3kP3AFeAw1gMzACxFV/+7JaqlipS1daSTNtvjcTvucKnyVJxzpNDC0k7ZQ0XbeU6OYn9AzYbWbXzexbmZOZPQXGgSt1Gu2WgFh6HDGzxTrOZvYdOAM88CLgmpm9WU6A/eyl8y4EmNnXFcbNAi9cTaOShiWNSRqP9zVC7rkQUOw9LgLvgGngPvBW0umK0DioXfTASeAssPaXZ+uAy5JGE3GLXgScSuQwmYhb6rmAoizfkXAZTdjiSt3zHhiKk0rCPpCwffYgIJVgayysiG4J6PtbeQQyJ5A5gcwJZE4gcwKZE8icQOYEVvmxyoCkTzVj+yWVHfhurMpD5bHJMuT/yVyvCawCAV/Il2YoTsxyZSEO4n3A7Yodk0cUf/YIZjYVb4D5qu2bE2KOc8ABM7v1AwXqac5SznEPAAAAAElFTkSuQmCC',
+      icon: `${BASE_URL}/icons/linkedin.svg`,
       color: '#0A66C2'
     });
   }
@@ -53,7 +54,7 @@ export function generateEmailHTML(options: EmailTemplateOptions): string {
     activeSocialLinks.push({
       platform: 'X (Twitter)',
       url: socialLinks.twitter,
-      icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAADa0lEQVRoge2ZW4hOURTH95lxG6aRu8wYMYncIjUJD+SSoqlRkilyex1PiszwoPFi5sV4YUijpHiiJoQaSUgml4wHilxLbjOY3P20dSZ7VnvPmXO+c75v5PvXqa/WOmv91zl7/89a+1Mqiyz+b3idP4AJSqlVEWI0eZ7XGhchYI1SqthialNKNXieh+vGHOAM4fEQGBwT+Y2OHN+AxT0JMBR4HKGI04CXIvmFwFdL7F/AujCBSh2BglCZAvlpQJsj7o4oAbdYAh3Xr9G4Tgq7Lro0Qq6xwAsH+YbQ5I3AxyzrcK5hHwS0Cp8nwLAQOQqA2w7yej/2SaWAfOC+CPoUGG74TAU6hE9TT/YD0Bc47yB/NxZh8Ndmh+XJ5Bg+FRYCWwPiekCjg/xzoChl8gEEq4TPEWH/DszvJuZuB/l2YEZs5I2Eh0Sin8ASwz4AuCV8npnLLTatjwKfYItI+AooNHwm+k/QxEUgN3atjwKgBHgvEl/Vm9HwWe3S8di1PgqAcv9pmdgrfA4I+w9gbSJaHwVAneX1rzTs/S3LjUS0Pgp0QuCyIKKXVolYbq7l0gldZL7KBIDRwEtB6A6QZ/iUWZZbMlofBb6i6PVt4qDw2Zc2rY8CYKeF4HrRLmilkvI7RvUGYB+CPgMzDZ9i4I3wuZT2zRtyCHqgO03DZ7llP+xRvQWOIeiE8KkVdl1Qmeot0B1od1Oavx+uCPtrPdBklvlfchccDdo8w6/IJ23iOtAvk+R1b38UN+QQtMgiv3WZLKCGYMiutMayH8ozQX6zg7AeaCSqjftygWZhfweMTyf5ZQ6if3p73WVahqClxv2jLO3IDd0MpoP89G6atSpjCLoZMAQtsOyH+qTJF/rjog2Hhe844K3wuWaqDrDLEqciKfIFftdpw1lbewCssHyFa0U7ck7YPwKT06X1gec4jq+wOQSN8FtsGTMvHVof2Ns7hqAPwCTDZ47/4XO250lofY97+x4OQdstOVI7rQA2xXWO4xiCGsSbPiXsn4ApiWh9xJjVAUPQEEt7fg8YGDbRLH+dEnS0GMMQ1KFjAtv8Sx7dazQmovURi9BP+RHhsSERrU9hCPoSsoAu42qsWh+xiErCo8u4Kp+m/ouoxb8k6j3Pa4+zAM/z9vtnqyND3jpbKdUcJ5csslD/KH4DzmEXAUi+9W8AAAAASUVORK5CYII=',
+      icon: `${BASE_URL}/icons/x.svg`,
       color: '#000000'
     });
   }
@@ -62,7 +63,7 @@ export function generateEmailHTML(options: EmailTemplateOptions): string {
     activeSocialLinks.push({
       platform: 'Discord',
       url: socialLinks.discord,
-      icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAADfElEQVRoge2Z22tUVxSHf1vrJalRAjGh94hR8AZqQQriQ++G2kql9EFQUIRoEQsKXh60T63xURAsFPrQFnqBPhVKay//QF+kEcW0RoOiLxqN0VysyVcWWRPG8cyZfcyEztT5YJgDZ6+119pr77XX3keqUaPG4wswDVgCzH8E2WaXnTY11iV3GoDVwEHgN+A243zxCLq+clnT8StwAFhlfUyF4cuATuAiyfwDtOW1nwM0Aq3+s+c5ee/bgPtFdPUAn1h0ymF4O/A7cXQDZ4D+lDb93uZ8hL4xj/KbaTYWDRewVNJpSTP033JP0qoQwtmkl4kLyOfhiQow3pgp6dNia6NYBtgi6WVVDuskbUt68ZBXwJOSLkhqUWVxTVJbCGGwVAQ+qEDjjack7VZaBHz0eyQ1qzK5KWlhCMH+EyOws4KNNxolbVdSBHyVd9s8U2VzQdLiEMJYYQRerQLjjYWSJja3fAd2qHrY/sAU8sV7Q9IsVQd3Jc0PIQzlIvBaFRlv2IC/YQ85B9qVfSG9J6lBUr2kDZK6Msifk/SOG2JV6ruSzme0YePEE3ApsuLMVZ1Nhdq8hP4jQv5PYF6CfKNXqtF25ARbyMbrxYYEWOllcBovpcivzWCH9dOUq/ljuVrqxOQjnD5q6fI9Gex5y9bAasXzVwiBEm3SjOyO6UPxrDAHFmUQqJtkm8nKF9JqDjyjeFYAlnkSAZ6QtCZF/kWgaLoG6jLOiAVZHZgtaU+JHfKhDJWHZZ+OlPe7PLXG8rx5fZ1sjACWtx8AeAUYiJAfTDqoM55M7F0Wrtg9z4BvJlmwhfyDpB8ljXoh+H7KETVJ/ntJp7ycsV11U9olQxH6zIERPzhXI0M2YtNVvUw3B4ZVvdwxB/pVvdw2B25lEPhS0udej5ebAUmfSfomi4w50GmeRGaOXkl7JT3tFwC/THIKDnsm6vD9aL+kS5GyNnOOjVsGL/gVdww3gI+BZ122HlgPHAG+BbqAPmC0oHLs83L5O+Ajz/v1ruM54Ki3ieFnk0m6+98KXI5UYvtAKn5GaIho91Nkn73A5tSK2Ef0MHArRZHd7S9XmWD8HJEfsUJuAoe8VopWOhfY514XcrxcxucATib0Yx9UPsz/OJIZYAaw0efuEPC332KUFaDBj7Z3ga+Bt726LWsn82zBl1VpHv45quSaqVGjxv+IfwGOiZ4XM6BfsgAAAABJRU5ErkJggg==',
+      icon: `${BASE_URL}/icons/discord.svg`,
       color: '#5865F2'
     });
   }
@@ -71,7 +72,7 @@ export function generateEmailHTML(options: EmailTemplateOptions): string {
     activeSocialLinks.push({
       platform: 'YouTube',
       url: socialLinks.youtube,
-      icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAACYUlEQVRoge2ZPWsUURSGn3cJJGyMwSSIsqKCn2g6URS1sPEXSDrFzkLsLQQrC3+AhVZ+VJFgL4iNiqKWppEgIkZE1k3UfELMkRPOwEYXQXNnyMA8cJc7O8y55+XcuXPuuVBRUVFRsQbkP2Z2ErgI9AIPgNvATmAPsAXYDAwB9Wgbgb7o+zMZ/UCt7Tq7N9v23zLwre16FpgDfgDfo++tCXwBPgNvJb3vqMDMTpvZT1vNvK0/pszshpntWBUBM3sMnKI8TAEjkh4R4fapUSY2AWNmtisT8JDy0Q9czabQYLwwZWPBo+ER2E456QH2uYBhysuwCzhAeTnoAhoJDS5RLI3Uy+hR4J5/HymGwdQCPko6F0Kekz9DLmAgtVVJL4ETwHlgkpwjUM/DsqRlSXeAvcBlYCaHYeq1WE9zQ9KcpOvAfuBWZKOp6HYB3RSApElJF+L9eJbIbE9hAjIkvQJ8/zECdM7x/zECpaYGLBY5oJkdBp4A92PXtxYWChNgZg0zuwm8AI4nMrvYFWlpbpiZL9OXgCvAhsTmF7piA50cM/PongWuJc632pn3Qb6SGDM7AjyN6kZezjvNWuLd2DYzuxvz/Bj50+xKHAF33G0WRauWONkq0nln0gWMU17Gyy7gjZdVPBudLjonSlZWkeSdMcrHqPueVad3A6+j4lUGpoFDkt6tZKOSJoAzUThd77TcV3f+jzteuo4SdsvWH63wbVUlcWUKdSLq8D61tsYBx0AcWNSjQtwbrT1B6/vtW9DpgGMpDjMyZuL+bMyAuei34oDjEzAh6cN/RKuioqKigr/yCwiB4llRzBVxAAAAAElFTkSuQmCC',
+      icon: `${BASE_URL}/icons/youtube.svg`,
       color: '#FF0000'
     });
   }
@@ -80,7 +81,7 @@ export function generateEmailHTML(options: EmailTemplateOptions): string {
     activeSocialLinks.push({
       platform: 'Instagram',
       url: socialLinks.instagram,
-      icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAFEElEQVRogdVaS2idRRT+zr03aiVNtTQSW00Rohuv3agLEQUrBUWhFVFiLVhJoVq1pFUQBDfiUulCfCBm5QvctD7aiIVqVUTrpmLTTVuliTaaKH2ojW0en5w6kcm553/d2yTXD364M/88vnPnzMw3Z35BDpBcCuAOANcBuBLAFQDaoyJtAMpRugVAq2nmTwDjUXoSwKkoPQrgJwBDAL4H0C8iw3n4JZEukXyA5D6SU5x7TIW+lUOpKPkbSB5k8+CgcspLvpvkX2w+/E1yveUrhvw6AG8m2HYawBcAjgA4CuAEgD8ATJhy48Hfp9u/JGWulEOeogNAJ4CuMNdmcIuwTkTe9v75G0mOOZYfILmW5ALMEUguJfk0yRGHz+kadyJZTvD5V0nqijIvIHkpyU8cXgMzJnaY6RavoAlAspJgRHdc6Fvz8jutOA9k15DsI/kiyavMSFh32hf7m13n75sH8k8aDieMETonYijnDn3RY16cInnhHJMXkr85bvJCVMb7o9erm1RNe3tF5EyDhBYFybEsZP2sEkFETiZUqQBY6OQvnv4hIsdIqsRYEb2vVkJHMY40QHoDgDUAbjLrvWKS5FcAdgB4Q0T+00EiMk6yH8BqU+d9kz5sDOjUjr8xw7KlIHFdgnsTXCAJoyQ3a92onctI7iB5NrS11elrm2nna808ZDLXFiC/iOQu1o+PSLaZNi9I6c9O5EO6GdjlciIv+SAt7kT9uEvbiI0QkbMp5WM5rqjUZUAY+neDZrHQidYbFofW8FRD3gGn/AoA7+SUzJZbRckMm2FZncMA9XlPLT6aRiScMTaRPOPUfyJHv4+ZOsNwdri7c/j9qEP+tiwCURsrHSNG7Hxw6m20dTwX0qNeGnoALDF5vSLyaV4DRGQPALvKtIe2C7lQPQbc4/j86yiO1wAMmDzdQ9Iw2ZABYeXRTSpGn4hMoSBERPvpM9k3Z7iROwLlAqtQp1N+N+rHbpMuhz6SYLmV1YCWAi6k4RWLQdSPozn7SHWhpLOnB+L8Qhrto+RUSDvIeIGmtCHPQqeTdyylfM2m6xlgfdy6ix3GVagfq0x6MkTmklCjcL1dM9GAoOdVEsfYEKvKvAh1ekz2l7HMno0RUGw3adU5G1EcmwBcm9G2Ra1uIzlRUEq0OVJCZcHKvMxJ3u5IiV9JLsyo94gnJWqWprRGwhA/b7JVw/cHsVXOOPyoaNsV6sR4TkQ00peG2k2X5Elj1b0ZjUwT2UkfGsnbQrJKsjU81ZCn7zx8kEdOOyp4yJPT92c1FLmSxo8axf4sFRr1+ZSp+6NaPWbK5QolBle6BcBO1I8PAdyasfKkcTu3CunNSIzL8/YeOtYD0GannTSMAHhc1WcB8h6330vOxrG8qKoUkZdCWFw1/ucJekrz9gLQqEeXiLxch4q13AYrjgHXoA6Ef3KbPsGnbWBrMMcqk4WrTXrICy1q/P1iNBlILncWgIcTY45oMpB81nBUzv/OiXAbGONwM40CyXaSx93wesoFx3uFrzdnASRbSH6WdcFRCtc2Ftuz9Mksk19Cck/mFVN0N6wT2EJ36q3nLhPmjvgyks8kBIxnXPLZa9YHAbyV1G4IofwQzrLDCZ8MIKTtXqD/mEY1YiwAcFHg0RHW+S7nziL7mvV/cNE9RvKhFMNq3MmbE/OFAZLX5yLfhB97dKethrlCKmEC6+c2GgpXiaDP+f7cRgWeyprpz20+FpFfsrj9A+4O7UrDOAf4AAAAAElFTkSuQmCC',
+      icon: `${BASE_URL}/icons/instagram.svg`,
       color: '#E4405F'
     });
   }
@@ -89,7 +90,7 @@ export function generateEmailHTML(options: EmailTemplateOptions): string {
     activeSocialLinks.push({
       platform: 'GitHub',
       url: socialLinks.github,
-      icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAEGElEQVRogc2aXYhVVRTH//umpvmRWfQ1ZpSWBTEVOVoQpFFokRRR2EPUQxg9RNlTREQRFL1UvvQQ2YP1UBTRhxgWUaGSgoOhFGIUYx9qZWaO4jRN+Ytle+J2Oufudc69c64/OE977bX/65y791577RvUQYCGpHMlzZE0XdK02DQo6TdJX0v6NoRwtFNjhnYdAPMk3STpWkl9kiYmugxJ2iLpY0lrQghbVTfAFOAh4Eva5wtgBTC5DuEnAo8Av9B59gEPAxPGSvxCYCdjzw7gmk4KPwF4AviT+jgKPGNjtyv+JGAt3eM901BV/DTgM7rPRtNSVvwE4EOOHz4Bcpdn23jyWC3peh0/LJS0ymUJ3NfiTbwBrAT6x2DSbgSeB95vYbc8JX4OMNTCwTkZ25UJ+xSHgKcyfvta2B8Bzi9MJYB1khYXxLczhHBRTtDnSXpB0qWS+uOzS9KB+NgYp8THBp8Xnw2SHggh7M34s6VzX7TPY20IwVKX/wlZknhbH6gmgG0JLdflTeJHHUlYXQwl2v+rFZjv+L1aBlkLwHcOPVc0f4G7HH4vsSy0BvFnS5rpML27OdexTDDF20CoIYBxceNK8dOxA5R9CofxfsBOWLUA9MQlM8VljbjLpXguhGBHwloIIeyW9KLDdFEjrt8pXlf9vOaw6bUALkwYDYQQvlH99Es6mLCZawH8u40X8IO6QPincrEnYTbLApiaMDqk7jGYaJ9qAaROPDPUPWYk2idbACMJo9PUPU5PtA9bAIcTRme2fbiuAGA/7dRR8nDDMUktfZiv+lnkqBx+bwF4lsglqp/FDpsBC+Bzh+E9lcsbFQDsMHOHw7TfAtjkMOyRtEL18Zhz9ds8WkIZdCROw4Dns7YFcAsw4tBzEBg/2ulVfFigN4yh+GXA704tq5s7XllgdKSgBLIKmNVB4XOBNylHX9bJloyBFXQDcDnwUY4DK/a+A9wLXBBvZ7yCxwO9wIPRt72UMmzOc3pnzm/+/tjWAF5KOLWvdbVD/G3O33grluU5bsTqWJbHm95aq4rcWyW+QN44Xj4tPNoCdnD/I9PBPu+Cpmrc3gLHS0sEsJxqDAMXp5w/3aqoZWVAWwGAA7Ftd5zUJ5cIwOZVFZ70VgXW5XS+yivQMcbMCuLXuJPKeLmxPePA7sdS6a3X/1klxW8tXZOydR4YyDjaBdzcbnptxasS4r+Kxa5cWqarwBmS3pV0bBI38aMku6D+OVaRbVNbEEJIHY5G/fY4z9rrJd0aQtjv8Vs02CTnLjmxw3PgFbuXriw8Z9DbYzmviEklfNlKVsQewFOrrRTEqcDLwF85A08pOb+yjMQbn3I3klUAZgPPNu0FlqWOK9F/etyUAH6Nwu1fLvVif9CIq1Jvhb62md1YZu7k8TdELa/qDQ3FmQAAAABJRU5ErkJggg==',
+      icon: `${BASE_URL}/icons/github.svg`,
       color: '#333333'
     });
   }
@@ -206,32 +207,10 @@ export function generateEmailHTML(options: EmailTemplateOptions): string {
           <table cellpadding="0" cellspacing="0" border="0">
             <tr>
               ${activeSocialLinks.map(link => `
-                <td align="center" valign="middle" style="padding: 0 8px;">
-                  <table cellpadding="0" cellspacing="0" border="0" role="presentation">
-                    <tr>
-                      <td
-                        align="center"
-                        valign="middle"
-                        width="44"
-                        height="44"
-                        style="width: 44px; height: 44px; border-radius: 22px; background-color: ${link.color}; text-align: center; vertical-align: middle;"
-                      >
-                        <a
-                          href="${link.url}"
-                          title="${link.platform}"
-                          style="display: block; width: 44px; height: 44px; text-decoration: none; line-height: 44px;"
-                        >
-                          <img
-                            src="${link.icon}"
-                            alt="${link.platform}"
-                            width="20"
-                            height="20"
-                            style="display: block; width: 20px; height: 20px; margin: 12px auto; border: 0; outline: none; text-decoration: none;"
-                          />
-                        </a>
-                      </td>
-                    </tr>
-                  </table>
+                <td style="padding: 0 8px;">
+                  <a href="${link.url}" style="display: inline-block; width: 44px; height: 44px; text-align: center; border-radius: 50%; background-color: ${link.color}; text-decoration: none; padding: 10px;" title="${link.platform}">
+                    <img src="${link.icon}" alt="${link.platform}" width="24" height="24" style="display: block; margin: 0 auto;" />
+                  </a>
                 </td>
               `).join('')}
             </tr>
