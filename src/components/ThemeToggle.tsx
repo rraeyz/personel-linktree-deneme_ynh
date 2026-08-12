@@ -17,29 +17,33 @@ export default function ThemeToggle() {
       setDarkMode(isDark)
       applyTheme(isDark)
     } else {
-      // Sistem temasını kontrol et
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-      setDarkMode(prefersDark)
-      applyTheme(prefersDark)
+      // Kullanıcının daha önce bir tercihi yok: varsayılan dark mode.
+      // Yalnızca sistem teması AÇIKÇA "light" ise buna saygı duyulur.
+      // Sistemde net bir tercih yoksa (no-preference) veya dark ise, dark mode ile açılır.
+      const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
+      const initialIsDark = !prefersLight
+      setDarkMode(initialIsDark)
+      applyTheme(initialIsDark)
     }
   }, [])
 
   const applyTheme = (isDark: boolean) => {
     const root = document.documentElement
-    
+
     if (isDark) {
       root.classList.add('dark')
       root.classList.remove('light')
-      root.style.setProperty('--bg-color', '#0a0a0a')
-      root.style.setProperty('--text-color', '#ffffff')
-      root.style.setProperty('--card-color', '#1a1a1a')
+      // Sayfanın gerçekten kullandığı CSS değişkenlerini güncelle
+      root.style.setProperty('--color-background', '#0a0a0a')
+      root.style.setProperty('--color-card', '#1a1a1a')
+      root.style.setProperty('--color-text', '#ffffff')
       localStorage.setItem('theme', 'dark')
     } else {
       root.classList.add('light')
       root.classList.remove('dark')
-      root.style.setProperty('--bg-color', '#ffffff')
-      root.style.setProperty('--text-color', '#0a0a0a')
-      root.style.setProperty('--card-color', '#f5f5f5')
+      root.style.setProperty('--color-background', '#f5f5f7')
+      root.style.setProperty('--color-card', '#ffffff')
+      root.style.setProperty('--color-text', '#0a0a0a')
       localStorage.setItem('theme', 'light')
     }
   }

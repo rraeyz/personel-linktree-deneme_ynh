@@ -41,6 +41,10 @@ body {
   color: var(--color-accent);
 }
 
+.text-dynamic-text {
+  color: var(--color-text);
+}
+
 .border-dynamic-primary {
   border-color: var(--color-primary);
 }

@@ -118,10 +118,10 @@ export default function LinkButton({
                 />
               </div>
             ) : Icon ? (
-              <Icon className="w-5 h-5 text-white group-hover:text-white/90 transition-colors" />
+              <Icon className="w-5 h-5 text-dynamic-text transition-colors" />
             ) : null}
           </div>
-          <span className="text-lg font-medium text-white group-hover:opacity-90 transition-colors">
+          <span className="text-lg font-medium text-dynamic-text group-hover:opacity-90 transition-colors">
             {title}
           </span>
           {hasPassword && (
@@ -181,10 +181,10 @@ export default function LinkButton({
                   />
                 </div>
               ) : Icon ? (
-                <Icon className="w-5 h-5 text-white group-hover:text-white/90 transition-colors" />
+                <Icon className="w-5 h-5 text-dynamic-text transition-colors" />
               ) : null}
             </div>
-            <span className="text-lg font-medium text-white group-hover:opacity-90 transition-colors">
+            <span className="text-lg font-medium text-dynamic-text group-hover:opacity-90 transition-colors">
               {title}
             </span>
           </div>

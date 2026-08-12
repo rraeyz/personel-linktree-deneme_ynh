@@ -82,7 +82,7 @@ export default function ActionButtons({ url, title }: ActionButtonsProps) {
           onClick={() => setShowSubscribe(!showSubscribe)}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 px-6 py-3 bg-dynamic-card border-2 border-dynamic-primary text-white font-medium rounded-xl hover:bg-dynamic-primary/10 transition-all"
+          className="flex items-center gap-2 px-6 py-3 bg-dynamic-card border-2 border-dynamic-primary text-dynamic-text font-medium rounded-xl hover:bg-dynamic-primary/10 transition-all"
         >
           <FaEnvelope className="w-4 h-4" />
           Abone Ol
@@ -100,7 +100,7 @@ export default function ActionButtons({ url, title }: ActionButtonsProps) {
           >
             <div className="p-6 bg-dynamic-card rounded-xl border border-gray-800">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-white">Bültene Abone Ol</h3>
+                <h3 className="text-lg font-semibold text-dynamic-text">Bültene Abone Ol</h3>
                 <button
                   onClick={() => setShowSubscribe(false)}
                   className="p-2 hover:bg-gray-700 rounded-lg transition-colors"

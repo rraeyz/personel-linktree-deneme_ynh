@@ -21,11 +21,13 @@ export default function DynamicBackground({
 }: DynamicBackgroundProps) {
   
   // Solid - Düz renk
+  // Not: backgroundColor yerine CSS değişkeni (--color-background) kullanılıyor,
+  // böylece ThemeToggle (açık/koyu mod) ile senkron çalışır.
   if (type === 'solid') {
     return (
       <div 
         className="fixed inset-0 -z-10" 
-        style={{ backgroundColor }}
+        style={{ backgroundColor: 'var(--color-background)' }}
       />
     )
   }
@@ -52,7 +54,7 @@ export default function DynamicBackground({
   // Mesh Gradient - Karışık gradient mesh
   if (type === 'mesh-gradient') {
     return (
-      <div className="fixed inset-0 -z-10" style={{ backgroundColor }}>
+      <div className="fixed inset-0 -z-10" style={{ backgroundColor: 'var(--color-background)' }}>
         <div className="absolute inset-0 opacity-30">
           <div 
             className="absolute top-0 left-0 w-full h-full"
@@ -74,7 +76,7 @@ export default function DynamicBackground({
   // Particles - Yüzen noktalar
   if (type === 'particles') {
     return (
-      <div className="fixed inset-0 -z-10" style={{ backgroundColor }}>
+      <div className="fixed inset-0 -z-10" style={{ backgroundColor: 'var(--color-background)' }}>
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
@@ -101,7 +103,7 @@ export default function DynamicBackground({
 
   // Gradient Blur (default) - Animasyonlu bulanık gradientler
   return (
-    <div className="fixed inset-0 -z-10" style={{ backgroundColor }}>
+    <div className="fixed inset-0 -z-10" style={{ backgroundColor: 'var(--color-background)' }}>
       <div className="absolute inset-0">
         <motion.div
           className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full mix-blend-screen filter blur-3xl opacity-10"

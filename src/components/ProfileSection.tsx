@@ -67,7 +67,7 @@ export default function ProfileSection({ name, bio, imageUrl, verified, badges }
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.3 }}
-        className="text-4xl font-bold mb-3 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent flex items-center justify-center gap-2"
+        className="text-4xl font-bold mb-3 text-dynamic-text flex items-center justify-center gap-2"
       >
         {name}
         {verified && (
